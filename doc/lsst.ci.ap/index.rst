@@ -6,7 +6,8 @@
 lsst.ci.ap
 ##########
 
-.. Paragraph that describes what this Python module does and links to related modules and frameworks.
+``ci_ap`` is a metapackage to make it easier to test the Alert Production (AP) pipelines and configuration with our continuous integration (CI), Jenkins.
+It uses the `ap_verify <https://pipelines.lsst.io/v/daily/modules/lsst.ap.verify/index.html>`_ tooling to run tests against each of our CI datasets.
 
 .. .. _lsst.ci.ap-using:
 
