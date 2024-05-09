@@ -19,3 +19,8 @@ pytest_session.txt
 .cache/
 .pytest_cache
 .coverage
+
+# outputs
+output-cosmos_pdr2
+output-dc2
+output-hits2015
