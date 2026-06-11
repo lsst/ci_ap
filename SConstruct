@@ -34,17 +34,9 @@ def getExecutableCmd(package, script, *args, directory="bin"):
 num_process = GetOption('num_jobs')
 
 PKG_ROOT = env.ProductDir("ci_ap")
-DC2_ROOT = os.path.join(PKG_ROOT, "output-dc2")
 COSMOS_PDR2_ROOT = os.path.join(PKG_ROOT, "output-cosmos_pdr2")
 HITS2015_ROOT = os.path.join(PKG_ROOT, "output-hits2015")
 
-dc2_pipeline = os.path.join(env.ProductDir("ap_verify_ci_dc2"), "pipelines", "ApVerifyWithFakes.yaml")
-dc2 = env.Command(DC2_ROOT, None,
-                  [getExecutableCmd("ap_verify", "ap_verify.py",
-                                    "--dataset", "ap_verify_ci_dc2",
-                                    "--pipeline", dc2_pipeline,
-                                    "--output", DC2_ROOT,
-                                    "-j", str(num_process))])
 
 cosmos_pdr2 = env.Command(COSMOS_PDR2_ROOT, None,
                           [getExecutableCmd("ap_verify", "ap_verify.py",
@@ -58,13 +50,12 @@ hits2015 = env.Command(HITS2015_ROOT, None,
                                          "--output", HITS2015_ROOT,
                                          "-j", str(num_process))])
 
-everything = [dc2, cosmos_pdr2, hits2015]
+everything = [cosmos_pdr2, hits2015]
 # Ensure that the above are not run in parallel (to avoid processor
 # contention) by claiming that they all create a (non-existent) file
 # "parallelization-lock".
 env.SideEffect("parallelization-lock", everything)
 env.Alias("all", everything)
-env.Alias("dc2", dc2)
 env.Alias("cosmos", cosmos_pdr2)
 env.Alias("hits", hits2015)
 Default(everything)
