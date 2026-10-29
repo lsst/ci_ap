@@ -6,7 +6,7 @@ setupRequired(base)
 setupRequired(ap_verify)
 setupRequired(ap_verify_ci_cosmos_pdr2)
 setupRequired(ap_verify_ci_hits2015)
-setupRequired(ap_verify_ci_dc2)
+setupRequired(ap_verify_ci_dp1_ecdfs)
 
 # The following is boilerplate for all packages.
 # See https://dmtn-001.lsst.io for details on LSST_LIBRARY_PATH.
