@@ -36,6 +36,7 @@ num_process = GetOption('num_jobs')
 PKG_ROOT = env.ProductDir("ci_ap")
 COSMOS_PDR2_ROOT = os.path.join(PKG_ROOT, "output-cosmos_pdr2")
 HITS2015_ROOT = os.path.join(PKG_ROOT, "output-hits2015")
+DP1_ECDFS_ROOT = os.path.join(PKG_ROOT, "output-dp1_ecdfs")
 
 
 cosmos_pdr2 = env.Command(COSMOS_PDR2_ROOT, None,
@@ -50,7 +51,14 @@ hits2015 = env.Command(HITS2015_ROOT, None,
                                          "--output", HITS2015_ROOT,
                                          "-j", str(num_process))])
 
-everything = [cosmos_pdr2, hits2015]
+# add DP1_ECDFS
+dp1_ecdfs = env.Command(DP1_ECDFS_ROOT, None,
+                        [getExecutableCmd("ap_verify", "ap_verify.py",
+                                          "--dataset", "ap_verify_ci_dp1_ecdfs",
+                                          "--output", DP1_ECDFS_ROOT,
+                                          "-j", str(num_process))])
+
+everything = [cosmos_pdr2, hits2015, dp1_ecdfs]
 # Ensure that the above are not run in parallel (to avoid processor
 # contention) by claiming that they all create a (non-existent) file
 # "parallelization-lock".
@@ -58,6 +66,7 @@ env.SideEffect("parallelization-lock", everything)
 env.Alias("all", everything)
 env.Alias("cosmos", cosmos_pdr2)
 env.Alias("hits", hits2015)
+env.Alias("dp1_ecdfs", dp1_ecdfs)
 Default(everything)
 
 # Add a no-op install target to keep Jenkins happy.
